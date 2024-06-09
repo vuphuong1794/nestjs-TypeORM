@@ -2,10 +2,12 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Profile } from './Profile';
+import { Post } from './Post';
 
 @Entity({ name: 'users' })
 export class User {
@@ -24,8 +26,12 @@ export class User {
   @Column({ nullable: true })
   authStrategy: string;
 
-  //mot user chi co mot ho so vaf mot ho so chi dung cho mot user
+  //1 - 1 relationship
   @OneToOne(() => Profile)
   @JoinColumn()
   profile: Profile;
+
+  //1 - N relationship
+  @OneToMany(() => Post, (post) => post.user)
+  posts: Post[];
 }
